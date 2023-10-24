@@ -28,18 +28,11 @@ const Login = () => {
         }
     }
 
-    const isUser = window.localStorage.getItem("token")
-
-
-
     return (
         <div>
-            {isUser ? navigate('/adminpage') :
-                <div>
-                    <input type='text' onChange={e => setname(e.target.value)} placeholder='username' />
-                    <input type='text' onChange={e => setpassword(e.target.value)} placeholder='password' />
-                    <button onClick={handleLogin}>Submit</button>
-                </div>}
+            <input type='text' onChange={e => setname(e.target.value)} placeholder='username' />
+            <input type='text' onChange={e => setpassword(e.target.value)} placeholder='password' />
+            <button onClick={handleLogin}>Submit</button>
         </div>
     )
 }

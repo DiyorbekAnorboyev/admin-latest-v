@@ -11,6 +11,7 @@ const Addproduct = ({ activeT, close }) => {
     const [code, setcode] = useState('')
     const [categoryId, setcategoryId] = useState('')
     const [dosageId, setdosageId] = useState('')
+    const [dosageName, setdosageName] = useState('')
 
     const [dosage, setdosage] = useState([])
     const [category, setcategory] = useState([])
@@ -55,6 +56,7 @@ const Addproduct = ({ activeT, close }) => {
         e.preventDefault()
         axios.post("https://admin.xaridor.com/api/Product", formData, { headers: { "Authorization": `Bearer ${token}` } })
             .then(res => console.log(res.data))
+            .then(() => close())
             .catch(err => console.log(err))
     }
 
