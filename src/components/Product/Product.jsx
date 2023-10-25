@@ -28,13 +28,16 @@ const Product = () => {
     setCategories(data.data.items);
   };
   const getProduct = async () => {
-    const { data } = await axios.get(
-      "https://admin.xaridor.com/api/Product/List?Limit=10&Offset=0",
+    await axios.get(
+      "https://admin.xaridor.com/api/Product/List",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
-    );
-    setdata(data.data.items);
+    )
+      .then(res => setdata(data.data))
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err))
+
     console.log(data);
   };
 
