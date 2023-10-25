@@ -1,0 +1,27 @@
+.category-menu {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+  box-shadow: 5px 5px 15px #4746465b;
+}
+.menu li {
+  list-style: none;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.menu li:hover {
+  color: #0d6efd;
+}
+.add-btn {
+  text-align: center;
+  color: #0d6efd;
+}
+.add-btn span {
+  font-size: 19px;
+}

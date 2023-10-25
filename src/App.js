@@ -1,17 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Adminpage from './components/adminpage/Adminpage';
-import Markets from './components/markets/Markets';
-import Product from './components/Product/Product';
-import Login from './components/login/Login';
-import Dosage from './components/dosage/Dosage';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Adminpage from "./components/adminpage/Adminpage";
+import Markets from "./components/markets/Markets";
+import Product from "./components/Product/Product";
+import Login from "./components/login/Login";
+import Dosage from "./components/dosage/Dosage";
+import Categories from "./components/appcategory/categories";
 
 function App() {
-
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/adminpage' element={<Adminpage />} />
+          <Route path="/adminpage" element={<Adminpage />} />
           <Route
             path="/adminpage/markets"
             element={<Adminpage activePage={<Markets />} />}
@@ -22,19 +22,17 @@ function App() {
           />
           <Route
             path="/adminpage/category"
-            element={<Adminpage activePage={<Product />} />}
+            element={<Adminpage activePage={<Categories />} />}
           />
           <Route
             path="/adminpage/dosage"
             element={<Adminpage activePage={<Dosage />} />}
           />
-          <Route path='/' element={<Login />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>
-
-
     </div>
   );
 }
 
-export default App
+export default App;
