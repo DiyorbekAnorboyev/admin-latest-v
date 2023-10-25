@@ -7,7 +7,7 @@ import Markets from '../markets/Markets'
 import { DokonIcon } from '../constants/dokonIcon'
 import { useLocation } from 'react-router-dom'
 
-const Adminpage = ({activePage}) => {
+const Adminpage = ({ activePage }) => {
     const location = useLocation()
     return (
         <div className=''>
@@ -31,32 +31,44 @@ const Adminpage = ({activePage}) => {
             </div>
             <div className='d-flex w-100'>
                 <div className='side'>
-                <a href='/adminpage/markets'>
-                            <div className={location.pathname === '/adminpage/markets' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
-                                <DokonIcon fill={location.pathname === '/adminpage/markets' ? 'blue' : 'grey'} />
-                                <p>Do'konlar</p>
-                            </div>
-                        </a>
-                        <a href='/adminpage/products'>
-                            <div className={location.pathname === '/adminpage/products' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
-                                <DokonIcon fill={location.pathname === '/adminpage/products' ? 'blue' : 'grey'} />
-                                <p>Mahsulotlar</p>
-                            </div>
-                        </a>   <a href='/adminpage'>
-                            <div className={location.pathname === '/adminpage' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
-                                <DokonIcon fill={location.pathname === '/adminpage' ? 'blue' : 'grey'} />
-                                <p>Ruxsat berish</p>
-                            </div>
-                        </a> 
-                          <a href='/adminpag'>
-                            <div className={location.pathname === '/adminpag' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
-                                <DokonIcon fill={location.pathname === '/adminpag' ? 'blue' : 'grey'} />
-                                <p>Hisbot</p>
-                            </div>
-                        </a>
+                    <a href='/adminpage/markets'>
+                        <div className={location.pathname === '/adminpage/markets' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpage/markets' ? 'blue' : 'grey'} />
+                            <p>Do'konlar</p>
+                        </div>
+                    </a>
+                    <a href='/adminpage/products'>
+                        <div className={location.pathname === '/adminpage/products' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpage/products' ? 'blue' : 'grey'} />
+                            <p>Mahsulotlar</p>
+                        </div>
+                    </a>   <a href='/adminpage'>
+                        <div className={location.pathname === '/adminpage' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpage' ? 'blue' : 'grey'} />
+                            <p>Ruxsat berish</p>
+                        </div>
+                    </a>
+                    <a href='/adminpag'>
+                        <div className={location.pathname === '/adminpag' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpag' ? 'blue' : 'grey'} />
+                            <p>Hisbot</p>
+                        </div>
+                    </a>
+                    <a href='/adminpage/category'>
+                        <div className={location.pathname === '/adminpage/category' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpage/category' ? 'blue' : 'grey'} />
+                            <p>Category</p>
+                        </div>
+                    </a>
+                    <a href='/adminpage/dosage'>
+                        <div className={location.pathname === '/adminpage/dosage' ? 'active-nav mt-1 pt-1 ' : 'hovers mt-1  pt-1'}>
+                            <DokonIcon fill={location.pathname === '/adminpage/dosage' ? 'blue' : 'grey'} />
+                            <p>Miqdori</p>
+                        </div>
+                    </a>
                 </div>
                 <div className='w-100'>
-                   {activePage}
+                    {activePage}
                 </div>
             </div>
         </div>

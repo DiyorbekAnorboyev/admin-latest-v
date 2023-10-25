@@ -18,14 +18,6 @@ const Addproduct = ({ activeT, close }) => {
 
     const token = window.localStorage.getItem("token")
 
-    // const dataProduct = {
-    //     name,
-    //     file: file,
-    //     code,
-    //     categoryId,
-    //     dosageId,
-    // }
-
     const formData = new FormData()
     formData.append('file', file)
     formData.append('name', name)

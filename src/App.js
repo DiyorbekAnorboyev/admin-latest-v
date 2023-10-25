@@ -3,6 +3,7 @@ import Adminpage from './components/adminpage/Adminpage';
 import Markets from './components/markets/Markets';
 import Product from './components/Product/Product';
 import Login from './components/login/Login';
+import Dosage from './components/dosage/Dosage';
 
 function App() {
 
@@ -10,16 +11,24 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-           <Route path='/adminpage' element={<Adminpage />} />
+          <Route path='/adminpage' element={<Adminpage />} />
           <Route
-              path="/adminpage/markets"
-              element={<Adminpage activePage={<Markets />} />}
-            /> 
+            path="/adminpage/markets"
+            element={<Adminpage activePage={<Markets />} />}
+          />
           <Route
-              path="/adminpage/products"
-              element={<Adminpage activePage={<Product/>} />}
-            /> 
-            <Route path='/' element={<Login/>}/>
+            path="/adminpage/products"
+            element={<Adminpage activePage={<Product />} />}
+          />
+          <Route
+            path="/adminpage/category"
+            element={<Adminpage activePage={<Product />} />}
+          />
+          <Route
+            path="/adminpage/dosage"
+            element={<Adminpage activePage={<Dosage />} />}
+          />
+          <Route path='/' element={<Login />} />
         </Routes>
       </BrowserRouter>
 
