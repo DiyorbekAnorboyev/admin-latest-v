@@ -18,7 +18,7 @@ const Product = () => {
 
   const getProduct = async () => {
     // axios url link change
-    await axios.get("https://admin.xaridor.com/api/Product/List?CategoryId=6740004e-2192-408a-9b7f-b3518ab468de",{headers: { Authorization: `Bearer ${token}` }})
+    await axios.get("https://admin.xaridor.com/api/Product/List",{headers: { Authorization: `Bearer ${token}` }})
       .then(res => setdata(res.data.data.items))
       .catch(err => console.log(err))
   };

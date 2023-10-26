@@ -61,6 +61,8 @@ const Addproduct = ({ activeT, close }) => {
             .catch(err => console.log(err))
     }
 
+    console.log(dosageId);
+
     return (
         <div>
             <div className={activeT ? "showProduct" : "hideProduct"}>
@@ -112,14 +114,12 @@ const Addproduct = ({ activeT, close }) => {
                         </div>
                     </div>
                     <div className=" row d-flex justify-content-between">
-                        <div className="inputs mt-2 w-50 col">
-                            <label>Miqdori</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                placeholder='1'
-                                onChange={e => setcompanyName(e.target.value)}
-                            />
+                        <div className='w-50'>
+                            <label for="file-upload" className="w-100 rounded">
+                                <h6>Rasmni yuklang</h6>
+                                <img height={75} src={file ? file : AddIcon} alt='file' />
+                                <input className="d-none" id="file-upload" type="file" onChange={e => handleFileChange(e)} />
+                            </label>
                         </div>
                         <div className="inputs mt-2 w-50 col">
                             <label>Ishlab chiqaruvchi</label>
@@ -132,13 +132,6 @@ const Addproduct = ({ activeT, close }) => {
                         </div>
                     </div>
                     <div className=" row d-flex justify-content-between">
-                        <div className='w-50'>
-                            <label for="file-upload" className="w-100 rounded">
-                                <h6>Rasmni yuklang</h6>
-                                <img height={75} src={file ? file : AddIcon} alt='file' />
-                                <input className="d-none" id="file-upload" type="file" onChange={e => handleFileChange(e)} />
-                            </label>
-                        </div>
                     </div>
                     <div className='d-flex justify-content-between mt-3 gap-3'>
                         <button onClick={close} type='submit' className='w-50 btn btn-outline-primary btn-modal'>BEKOR QILISH </button>
