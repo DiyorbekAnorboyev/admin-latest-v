@@ -1,11 +1,12 @@
 .over-s {
-    background-color: white;
+    background-color: rgb(249, 252, 247);
     height: 70px;
     padding: 12px, 12px;    
     justify-content: space-between;
     align-items: center;
     display: flex;
     font-family: Inter;
+    border: 1px solid rgb(224, 250, 207);
 }
 .search-s input{
     width: 350px;
@@ -22,7 +23,8 @@
     width: 150px;
     border-radius: 1px;
     text-align: center;
-    background-color: white;
+    background-color: rgb(249, 252, 247);
+    border: 1px solid rgb(224, 250, 207);
 }
 
 .side a:link {

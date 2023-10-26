@@ -16,6 +16,14 @@ const Addproduct = ({ activeT, close }) => {
     const [dosage, setdosage] = useState([])
     const [category, setcategory] = useState([])
 
+    // const [image, setImage] = useState(null)
+
+    // const onImageChange = (event) => {
+    //     if (event.target.files && event.target.files[0]) {
+    //         setImage(URL.createObjectURL(event.target.files[0]));
+    //     }
+    // }
+
     const token = window.localStorage.getItem("token")
 
     const formData = new FormData()
@@ -27,7 +35,9 @@ const Addproduct = ({ activeT, close }) => {
     formData.append('manufacturer', companyName)
 
     const handleFileChange = (event) => {
-        return setfile(event.target.files[0])
+        if (event.target.files && event.target.files[0]) {
+            setfile(URL.createObjectURL(event.target.files[0]));
+        }
     }
 
     useEffect(() => {
@@ -51,7 +61,6 @@ const Addproduct = ({ activeT, close }) => {
             .catch(err => console.log(err))
     }
 
-
     return (
         <div>
             <div className={activeT ? "showProduct" : "hideProduct"}>
@@ -60,29 +69,25 @@ const Addproduct = ({ activeT, close }) => {
                         <h5>Mahsulot qo'shish</h5>
                     </div>
                     <div className="row d-flex justify-content-between">
-                        <div>
-                            <div className='row d-flex justify-content-between '>
-                                <div className="inputs  col">
-                                    <label >Mahsulot turi</label>
-                                    <select className="form-control" value={categoryId} onChange={(e) => setcategoryId(e.target.value)}>
-                                        {category.map((item) => (
-                                            <option key={item.id} value={item.id}>
-                                                {item.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                        <div className="inputs  col">
+                            <label >Mahsulot turi</label>
+                            <select className="form-control" value={categoryId} onChange={(e) => setcategoryId(e.target.value)}>
+                                {category.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                                <div className="inputs  col">
-                                    <label>Mahsulot nomi</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder='Mahsulot nomi'
-                                        onChange={e => setname(e.target.value)}
-                                    />
-                                </div>
-                            </div>
+                        <div className="inputs  col">
+                            <label>Mahsulot nomi</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder='Mahsulot nomi'
+                                onChange={e => setname(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="row d-flex justify-content-between">
@@ -106,13 +111,15 @@ const Addproduct = ({ activeT, close }) => {
                             />
                         </div>
                     </div>
-                    <div className=" d-flex justify-content-between">
-                        <div className='w-50'>
-                            <label for="file-upload" className="w-100 rounded">
-                                <h6>Rasmni yuklang</h6>
-                                <img height={75} src={file ? file :  AddIcon} alt='file' />
-                                <input className="d-none" id="file-upload" type="file" onChange={e => handleFileChange(e)} />
-                            </label>
+                    <div className=" row d-flex justify-content-between">
+                        <div className="inputs mt-2 w-50 col">
+                            <label>Miqdori</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                placeholder='1'
+                                onChange={e => setcompanyName(e.target.value)}
+                            />
                         </div>
                         <div className="inputs mt-2 w-50 col">
                             <label>Ishlab chiqaruvchi</label>
@@ -122,6 +129,15 @@ const Addproduct = ({ activeT, close }) => {
                                 placeholder='Ishlab chiqaruvchi nomi'
                                 onChange={e => setcompanyName(e.target.value)}
                             />
+                        </div>
+                    </div>
+                    <div className=" row d-flex justify-content-between">
+                        <div className='w-50'>
+                            <label for="file-upload" className="w-100 rounded">
+                                <h6>Rasmni yuklang</h6>
+                                <img height={75} src={file ? file : AddIcon} alt='file' />
+                                <input className="d-none" id="file-upload" type="file" onChange={e => handleFileChange(e)} />
+                            </label>
                         </div>
                     </div>
                     <div className='d-flex justify-content-between mt-3 gap-3'>

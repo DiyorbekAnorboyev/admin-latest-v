@@ -10,44 +10,24 @@ import AddCategory from "../appcategory/add-category";
 const Product = () => {
   const [data, setdata] = useState([]);
   const [addShow, setAddShow] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [categoryShow, setCategoryShow] = useState(false);
-  const [categoryMenu, setCategoryMenu] = useState(false);
 
   const [addDosage, setAddDosage] = useState(false);
 
   const token = window.localStorage.getItem("token");
 
-  const getCategory = async () => {
-    const { data } = await axios.get(
-      "https://admin.xaridor.com/api/Category/List",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    setCategories(data.data.items);
-  };
   const getProduct = async () => {
-    await axios.get(
-      "https://admin.xaridor.com/api/Product/List",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
-      .then(res => setdata(data.data))
-      .then(res => console.log(res.data))
+    // axios url link change
+    await axios.get("https://admin.xaridor.com/api/Product/List?CategoryId=6740004e-2192-408a-9b7f-b3518ab468de",{headers: { Authorization: `Bearer ${token}` }})
+      .then(res => setdata(res.data.data.items))
       .catch(err => console.log(err))
-
-    console.log(data);
   };
+
+  console.log(data);
 
   useEffect(() => {
     getProduct();
-  }, [setdata]);
-
-  useEffect(() => {
-    getCategory();
-  }, []);
+  }, [setdata])
 
   const handleDelete = (e) => {
     axios
@@ -60,15 +40,6 @@ const Product = () => {
 
   const onAdd = () => {
     setAddShow(!addShow ? true : false);
-  };
-
-  const onCategory = () => {
-    setCategoryShow(!categoryShow);
-    setCategoryMenu(!categoryMenu);
-  };
-
-  const onDosage = () => {
-    setAddDosage(!addDosage ? true : false);
   };
 
   const CloseModal = (a) => {
@@ -103,7 +74,7 @@ const Product = () => {
 
           <h5>Mahsulotlar</h5>
           <div className="d-flex  gap-3 ">
-            <button className="btn btn-primary mt-1" onClick={onAdd}>
+            <button className="btn btn-primary mt-1 mx-1" onClick={onAdd}>
               Mahsulotlar qo'shish
             </button>
           </div>
@@ -117,10 +88,12 @@ const Product = () => {
                 <th scope="col">Mahsulot Nomi</th>
                 <th scope="col">Shtrix</th>
                 <th scope="col">O'lchov birligi</th>
+                <th scope="col">Ishlab chiqaruvchi nomi</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
+            {/* */}
               {data.map((e, idx) => (
                 <tr key={idx} className="table-secondary">
                   <th scope="row ">{e.id.slice(0, 3)}</th>
@@ -128,6 +101,7 @@ const Product = () => {
                   <td>{e.productName}</td>
                   <td>{e.code}</td>
                   <td>{e.dosageName}</td>
+                  <td>{e.manufacturer}</td>
                   <td>
                     <button
                       className="btn btn-outline-danger"
