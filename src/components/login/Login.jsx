@@ -13,8 +13,6 @@ const Login = () => {
     password: password,
   };
 
-  console.log(token);
-
   // Mirzayev_020
 
   const handleLogin = async (e) => {

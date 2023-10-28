@@ -1,41 +1,44 @@
 import { useEffect, useState } from "react";
 import Addproduct from "../addproduct/Addproduct";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import AddDosage from "../dosage/AddDosage";
 import "./Product.css";
-import EditCategory from "../appcategory/edit-category";
-import AddCategory from "../appcategory/add-category";
+import { useDispatch, useSelector } from "react-redux";
+import ProductService from "../service/product";
+import {
+  getProductsFailure,
+  getProductsStart,
+  getProductsSuccess,
+} from "../redux/slice/product";
 
 const Product = () => {
-  const [data, setdata] = useState([]);
+  const { products } = useSelector((state) => state.product);
+  console.log(products);
   const [addShow, setAddShow] = useState(false);
-  const [categoryShow, setCategoryShow] = useState(false);
-
-  const [addDosage, setAddDosage] = useState(false);
+  const dispatch = useDispatch();
 
   const token = window.localStorage.getItem("token");
 
   const getProduct = async () => {
-    // axios url link change
-    await axios.get("https://admin.xaridor.com/api/Product/List",{headers: { Authorization: `Bearer ${token}` }})
-      .then(res => setdata(res.data.data.items))
-      .catch(err => console.log(err))
+    dispatch(getProductsStart());
+    try {
+      const data = await ProductService.getProducts();
+      dispatch(getProductsSuccess(data.data.items));
+    } catch (error) {
+      dispatch(getProductsFailure());
+    }
   };
-
-  console.log(data);
 
   useEffect(() => {
     getProduct();
-  }, [setdata])
+  }, [products]);
 
-  const handleDelete = (e) => {
-    axios
-      .delete(`https://admin.xaridor.com/api/Product/${e}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  const handleDelete = async (e) => {
+    await ProductService.deleteProduct(e);
+    const data = await ProductService.getProducts();
+    dispatch(getProductsSuccess(data.data.items));
   };
 
   const onAdd = () => {
@@ -58,18 +61,12 @@ const Product = () => {
 
         <div className="d-flex justify-content-between ">
           <div>
-            <AddDosage
-              activeT={addDosage}
-              close={() => CloseModal(setAddDosage)}
-            />
-            <Addproduct
-              activeT={addShow}
-              close={() => CloseModal(setAddShow)}
-            />
-            <AddCategory
-              activeT={categoryShow}
-              close={() => CloseModal(setCategoryShow)}
-            />
+            {addShow && (
+              <Addproduct
+                activeT={addShow}
+                close={() => CloseModal(setAddShow)}
+              />
+            )}
           </div>
 
           <h5>Mahsulotlar</h5>
@@ -93,8 +90,8 @@ const Product = () => {
               </tr>
             </thead>
             <tbody>
-            {/* */}
-              {data.map((e, idx) => (
+              {/* */}
+              {products.map((e, idx) => (
                 <tr key={idx} className="table-secondary">
                   <th scope="row ">{e.id.slice(0, 3)}</th>
                   <td>{e.categoryName}</td>

@@ -3,56 +3,57 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getCategoryFailure,
-  getCategoryStart,
-  getCategorySuccess,
-} from "../redux/slice/category";
-import CategoryService from "../service/category";
 
-const EditCategory = ({ activeT, close, id }) => {
+import {
+  getDosageFailure,
+  getDosageStart,
+  getDosageSuccess,
+} from "../redux/slice/dosage";
+import dosageService from "../service/dosage";
+
+const EditDosage = ({ activeT, close, id }) => {
   const [name, setName] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [dosageId, setDosageId] = useState("");
   const dispatch = useDispatch();
 
-  const getCategory = async () => {
-    const { data } = await CategoryService.getCategory();
+  const getDosage = async () => {
+    const { data } = await dosageService.getDosage();
     setName(data.items[id]?.name);
-    setCategoryId(data.items[id]?.id);
+    setDosageId(data.items[id]?.id);
   };
 
-  const editCategory = async () => {
-    dispatch(getCategoryStart());
+  const EditDosage = async () => {
+    dispatch(getDosageStart());
     try {
-      await CategoryService.editCategory({ name, id: categoryId });
-      const data = await CategoryService.getCategory();
-      dispatch(getCategorySuccess(data.data.items));
+      await dosageService.editDosage({ name, id: dosageId });
+      const data = await dosageService.getDosage();
+      dispatch(getDosageSuccess(data.data.items));
       close();
     } catch (error) {
-      dispatch(getCategoryFailure());
+      dispatch(getDosageFailure());
     }
   };
 
   useEffect(() => {
-    getCategory();
+    getDosage();
   }, [activeT]);
 
   return (
     <div className={activeT ? "showProduct" : "hideProduct"}>
       <div className="credit ">
         <div className="d-flex justify-content-between">
-          <h5>Categoriyani o'zgartirish</h5>
+          <h5>Miqdorni o'zgartirish</h5>
         </div>
 
         <div className="row d-flex justify-content-between">
           <div className="inputs  col">
-            <label>Category nomi</label>
+            <label>Miqdor nomi</label>
             <input
               type="text"
               className="form-control"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Mahsulot nomi"
+              placeholder="Miqdor nomi"
             />
           </div>
         </div>
@@ -66,7 +67,7 @@ const EditCategory = ({ activeT, close, id }) => {
           </button>
           <button
             className="w-50 btn btn-primary btn-modal"
-            onClick={() => editCategory()}
+            onClick={() => EditDosage()}
           >
             O'zgartirish
           </button>
@@ -76,4 +77,4 @@ const EditCategory = ({ activeT, close, id }) => {
   );
 };
 
-export default EditCategory;
+export default EditDosage;

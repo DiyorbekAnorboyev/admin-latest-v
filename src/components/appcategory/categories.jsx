@@ -3,25 +3,25 @@ import axios from "axios";
 import AddDosage from "../dosage/AddDosage";
 import AddCategory from "./add-category";
 import EditCategory from "./edit-category";
+import { useDispatch, useSelector } from "react-redux";
+import CategoryService from "../service/category";
+import {
+  getCategoryFailure,
+  getCategoryStart,
+  getCategorySuccess,
+} from "../redux/slice/category";
 
 function Categories() {
-  const [data, setdata] = useState([]);
+  const { categories } = useSelector((state) => state.category);
   const [addDosage, setAddDosage] = useState(false);
   const [id, setId] = useState(0);
   const [editShow, setEditShow] = useState(false);
   const [categoryId, setCategoryId] = useState("");
   const [name, setName] = useState("");
 
-  const token = window.localStorage.getItem("token");
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    axios
-      .get("https://admin.xaridor.com/api/Category/List", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setdata(res.data.data.items))
-      .catch((err) => console.log(err));
-  }, [setdata]);
+  const token = window.localStorage.getItem("token");
 
   const handleDelete = (e) => {
     axios
@@ -33,14 +33,9 @@ function Categories() {
   };
 
   const getCategory = async () => {
-    const { data } = await axios.get(
-      "https://admin.xaridor.com/api/Category/List",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    setName(data.data.items[id].name);
-    setCategoryId(data.data.items[id].id);
+    const { data } = await CategoryService.getCategory();
+    setName(data.items[id].name);
+    setCategoryId(data.items[id].id);
   };
   useEffect(() => {
     getCategory();
@@ -59,13 +54,15 @@ function Categories() {
     return a(false);
   };
 
-  const deleteCategory = () => {
-    fetch(`https://admin.xaridor.com/api/Category/${categoryId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const deleteCategory = async (id) => {
+    dispatch(getCategoryStart());
+    try {
+      await CategoryService.deleteCategory(id);
+      const data = await CategoryService.getCategory();
+      dispatch(getCategorySuccess(data.data.items));
+    } catch (error) {
+      dispatch(getCategoryFailure());
+    }
   };
 
   return (
@@ -109,7 +106,7 @@ function Categories() {
               </tr>
             </thead>
             <tbody>
-              {data.map((e, idx) => (
+              {categories.map((e, idx) => (
                 <tr key={idx} className="table-secondary">
                   <th scope="row ">{e.id}</th>
                   <td>{e.name}</td>
@@ -117,7 +114,7 @@ function Categories() {
                     <div className="d-flex gap-1">
                       <button
                         className="btn btn-outline-danger"
-                        onClick={() => deleteCategory()}
+                        onClick={() => deleteCategory(e.id)}
                       >
                         delete
                       </button>

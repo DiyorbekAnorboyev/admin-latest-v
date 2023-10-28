@@ -1,28 +1,29 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  getCategoryFailure,
+  getCategoryStart,
+  getCategorySuccess,
+} from "../redux/slice/category";
+import CategoryService from "../service/category";
 
 const AddCategory = ({ activeT, close }) => {
   const [name, setName] = useState("");
+  const dispatch = useDispatch();
 
-  const token = window.localStorage.getItem("token");
-  const formData = new FormData();
-  formData.append("name", name);
-
-  const AddCategory = () => {
-    fetch("https://admin.xaridor.com/api/Category", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: name }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        close();
-      });
+  const AddCategory = async () => {
+    dispatch(getCategoryStart());
+    try {
+      await CategoryService.postCategory({ name });
+      const data = await CategoryService.getCategory();
+      dispatch(getCategorySuccess(data.data.items));
+      close();
+      setName("");
+    } catch (error) {
+      dispatch(getCategoryFailure());
+    }
   };
 
   return (
