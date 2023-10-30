@@ -1,31 +1,30 @@
 .showProduct {
-    width: 90%;
-    height: 89%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1a202c4d;
-   
+  width: 90%;
+  height: 89%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1a202c4d;
 }
 
 .OneshowProduct {
-    width: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1a202c4d;
-    top: 0;
-    left: 0;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1a202c4d;
+  top: 0;
+  left: 0;
 }
-.credit{
-    background-color: white;
-    width: 60%;
-    height: auto;
-    border-radius: 5px;
-    padding: 44px;
+.credit {
+  background-color: white;
+  width: 60%;
+  height: auto;
+  border-radius: 5px;
+  padding: 44px;
 }
 .hideProduct {
-    display: none;
+  display: none;
 }

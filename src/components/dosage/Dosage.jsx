@@ -9,8 +9,9 @@ import {
 } from "../redux/slice/dosage";
 import dosageService from "../service/dosage";
 import EditDosage from "./editDosage";
+import Loading from "../loading/loading";
 function Dosage() {
-  const { dosageData } = useSelector((state) => state.dosage);
+  const { dosageData, isLoading } = useSelector((state) => state.dosage);
   const [addDosage, setAddDosage] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [id, setId] = useState(0);
@@ -20,7 +21,6 @@ function Dosage() {
   const dispatch = useDispatch();
 
   const getDosage = async () => {
-    dispatch(getDosageStart());
     try {
       const data = await dosageService.getDosage();
       dispatch(getDosageSuccess(data.data.items));
@@ -31,10 +31,9 @@ function Dosage() {
 
   useEffect(() => {
     getDosage();
-  }, [dosageData]);
+  }, []);
 
   const handleDelete = async (e) => {
-    dispatch(getDosageStart());
     try {
       await dosageService.deleteDosage(e);
       const data = await dosageService.getDosage();
@@ -57,7 +56,9 @@ function Dosage() {
     setId(id);
   };
 
-  return (
+  return isLoading ? (
+    <Loading dataName={"Miqdorlar"} />
+  ) : (
     <div>
       <div className="all-markets">
         {token ? (

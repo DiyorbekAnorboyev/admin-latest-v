@@ -25,15 +25,8 @@
 .add-btn span {
   font-size: 19px;
 }
-
 .tabl {
-  height: 81vh;
-  overflow-x: auto;
-}
-
-.tabl thead{
-  position: -webkit-sticky; 
-  position: sticky;
-  top: 0;
-  background-color: rgb(230, 230, 235);
+  overflow-y: scroll;
+  width: 100%;
+  height: 80vh;
 }

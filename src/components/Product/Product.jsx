@@ -8,17 +8,17 @@ import {
   getProductsStart,
   getProductsSuccess,
 } from "../redux/slice/product";
+import axios from "axios";
+import Loading from "../loading/loading";
 
 const Product = () => {
-  const { products } = useSelector((state) => state.product);
-  console.log(products);
+  const { products, isLoading } = useSelector((state) => state.product);
   const [addShow, setAddShow] = useState(false);
   const dispatch = useDispatch();
 
   const token = window.localStorage.getItem("token");
 
   const getProduct = async () => {
-    dispatch(getProductsStart());
     try {
       const data = await ProductService.getProducts();
       dispatch(getProductsSuccess(data.data.items));
@@ -36,9 +36,16 @@ const Product = () => {
   }, []);
 
   const handleDelete = async (e) => {
-    await ProductService.deleteProduct(e);
-    const data = await ProductService.getProducts();
-    dispatch(getProductsSuccess(data.data.items));
+    dispatch(getProductsStart());
+    try {
+      await axios.delete(`https://admin.xaridor.com/api/Product/${e}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await ProductService.getProducts();
+      dispatch(getProductsSuccess(data.data.items));
+    } catch (error) {
+      dispatch(getProductsFailure());
+    }
   };
 
   const onAdd = () => {
@@ -48,7 +55,9 @@ const Product = () => {
   const CloseModal = (a) => {
     return a(false);
   };
-  return (
+  return isLoading ? (
+    <Loading dataName={"Mahsulotlar"} />
+  ) : (
     <div>
       <div className="all-markets">
         {token ? (
@@ -83,6 +92,7 @@ const Product = () => {
                 <th scope="col">№</th>
                 <th scope="col">Mahsulot turi</th>
                 <th scope="col">Mahsulot Nomi</th>
+                <th scope="col">Mahsulot rasmi</th>
                 <th scope="col">Shtrix</th>
                 <th scope="col">O'lchov birligi</th>
                 <th scope="col">Ishlab chiqaruvchi nomi</th>
@@ -90,12 +100,18 @@ const Product = () => {
               </tr>
             </thead>
             <tbody>
-              {/* */}
               {products.map((e, idx) => (
                 <tr key={idx} className="table-secondary">
                   <th scope="row ">{e.id.slice(0, 3)}</th>
                   <td>{e.categoryName}</td>
                   <td>{e.productName}</td>
+                  <td>
+                    <img
+                      src={"data:image/jpeg;base64," + e.picture}
+                      style={{ width: "80px", height: "50px" }}
+                      alt=""
+                    />
+                  </td>
                   <td>{e.code}</td>
                   <td>{e.dosageName}</td>
                   <td>{e.manufacturer}</td>

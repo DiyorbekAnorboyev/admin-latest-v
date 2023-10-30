@@ -10,9 +10,10 @@ import {
   getCategoryStart,
   getCategorySuccess,
 } from "../redux/slice/category";
+import Loading from "../loading/loading";
 
 function Categories() {
-  const { categories } = useSelector((state) => state.category);
+  const { categories, isLoading } = useSelector((state) => state.category);
   const [addDosage, setAddDosage] = useState(false);
   const [id, setId] = useState(0);
   const [editShow, setEditShow] = useState(false);
@@ -22,15 +23,6 @@ function Categories() {
   const dispatch = useDispatch();
 
   const token = window.localStorage.getItem("token");
-
-  const handleDelete = (e) => {
-    axios
-      .delete(`https://admin.xaridor.com/api/Dosage/${e}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  };
 
   const getCategory = async () => {
     const { data } = await CategoryService.getCategory();
@@ -65,7 +57,9 @@ function Categories() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Loading dataName={"Kategoriyalar"} />
+  ) : (
     <div>
       <div className="all-markets">
         {token ? (

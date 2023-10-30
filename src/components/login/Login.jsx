@@ -24,6 +24,7 @@ const Login = () => {
     await window.localStorage.setItem("token", `${token}`);
     if (token) {
       navigate("/adminpage/products");
+      window.location.reload();
     }
   };
 

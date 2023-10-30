@@ -3,7 +3,13 @@ import "./Addproduct.css";
 import AddIcon from "../../components/constants/AddIcon.jpg";
 
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProductsFailure,
+  getProductsStart,
+  getProductsSuccess,
+} from "../redux/slice/product";
+import ProductService from "../service/product";
 
 const Addproduct = ({ activeT, close }) => {
   const { dosageData } = useSelector((state) => state.dosage);
@@ -14,10 +20,8 @@ const Addproduct = ({ activeT, close }) => {
   const [categoryId, setcategoryId] = useState(categories[0].id);
   const [dosageId, setdosageId] = useState(dosageData[0].id);
   const [companyName, setcompanyName] = useState("");
-  console.log(categoryId);
 
-  const token = window.localStorage.getItem("token");
-
+  const dispatch = useDispatch();
   const formData = new FormData();
   formData.append("file", file);
   formData.append("name", name);
@@ -32,15 +36,18 @@ const Addproduct = ({ activeT, close }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("https://admin.xaridor.com/api/Product", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => console.log(res.data))
-      .then(() => close())
-      .catch((err) => console.log(err));
+    dispatch(getProductsStart());
+    try {
+      await ProductService.postProduct(formData);
+      const data = await ProductService.getProducts();
+      dispatch(getProductsSuccess(data.data.items));
+      close();
+    } catch (error) {
+      dispatch(getProductsFailure());
+      console.log(error);
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import Login from "./components/login/Login";
 import Dosage from "./components/dosage/Dosage";
 import Categories from "./components/appcategory/categories";
 import { useDispatch } from "react-redux";
+import "./App.css";
 import {
   getProductsFailure,
   getProductsStart,
