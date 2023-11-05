@@ -107,7 +107,7 @@ const Product = () => {
                   <td>{e.productName}</td>
                   <td>
                     <img
-                      src={"data:image/jpeg;base64," + e.picture}
+                      src={"https://admin.xaridor.com"+e.picturePath}
                       style={{ width: "80px", height: "50px" }}
                       alt=""
                     />

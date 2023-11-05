@@ -16,6 +16,7 @@ const Addproduct = ({ activeT, close }) => {
   const { categories } = useSelector((state) => state.category);
   const [name, setname] = useState("");
   const [file, setfile] = useState(null);
+  const [exfile, setexfile] = useState(null);
   const [code, setcode] = useState("");
   const [categoryId, setcategoryId] = useState(categories[0].id);
   const [dosageId, setdosageId] = useState(dosageData[0].id);
@@ -31,10 +32,11 @@ const Addproduct = ({ activeT, close }) => {
   formData.append("manufacturer", companyName);
 
   const handleFileChange = (event) => {
+    setfile(event.target.files[0]);
     if (event.target.files && event.target.files[0]) {
-      setfile(URL.createObjectURL(event.target.files[0]));
+      setexfile(URL.createObjectURL(event.target.files[0]));
     }
-  };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,7 +114,7 @@ const Addproduct = ({ activeT, close }) => {
             <div className="w-50">
               <label for="file-upload" className="w-100 rounded">
                 <h6>Rasmni yuklang</h6>
-                <img height={75} src={file ? file : AddIcon} alt="file" />
+                <img height={75} src={exfile ? exfile : AddIcon} alt="file" />
                 <input
                   className="d-none"
                   id="file-upload"

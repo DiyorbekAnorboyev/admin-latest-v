@@ -8,10 +8,7 @@ const ProductService = {
     return data;
   },
   async postProduct(product) {
-    const { data } = await axios.post(
-      "https://admin.xaridor.com/api/Product",
-      product
-    );
+    const { data } = await axios.post("https://admin.xaridor.com/api/Product",product);
     return data;
   },
   async deleteProduct(id) {
