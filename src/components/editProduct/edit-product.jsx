@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./Addproduct.css";
-import AddIcon from "../../components/constants/AddIcon.jpg";
+import React, { useState } from "react";
 
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsFailure,
@@ -11,44 +8,48 @@ import {
 } from "../redux/slice/product";
 import ProductService from "../service/product";
 
-const Addproduct = ({ activeT, close }) => {
+const EditProduct = ({ activeT, close, id }) => {
   const { dosageData } = useSelector((state) => state.dosage);
   const { categories } = useSelector((state) => state.category);
-  const [name, setname] = useState("");
-  const [file, setfile] = useState(null);
+  const { products } = useSelector((state) => state.product);
+  const [name, setname] = useState(products[id].productName);
+  const [file, setfile] = useState(products[id].picturePath);
   const [exfile, setexfile] = useState(null);
-  const [code, setcode] = useState("");
-  const [categoryId, setcategoryId] = useState(categories[0].id);
-  const [dosageId, setdosageId] = useState(dosageData[0].id);
-  const [companyName, setcompanyName] = useState("");
+  const [code, setcode] = useState(products[id].code);
+  const [categoryId, setcategoryId] = useState(products[id].categoryId);
+  const [dosageId, setdosageId] = useState(products[id].dosageId);
+  const [companyName, setcompanyName] = useState(products[id].manufacturer);
+  const [isNewFile, setIsNewFile] = useState(false);
 
   const dispatch = useDispatch();
   const formData = new FormData();
+  formData.append("Id", products[id].id);
   formData.append("file", file);
   formData.append("name", name);
   formData.append("code", code);
   formData.append("categoryId", categoryId);
   formData.append("dosageId", dosageId);
   formData.append("manufacturer", companyName);
+  formData.append("isNewFile", isNewFile);
 
   const handleFileChange = (event) => {
     setfile(event.target.files[0]);
     if (event.target.files && event.target.files[0]) {
       setexfile(URL.createObjectURL(event.target.files[0]));
     }
+    setIsNewFile(!isNewFile);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const editBtn = async () => {
     dispatch(getProductsStart());
     try {
-      await ProductService.postProduct(formData);
+      await ProductService.editProduct(formData);
       const data = await ProductService.getProducts();
       dispatch(getProductsSuccess(data.data.items));
       close();
     } catch (error) {
-      dispatch(getProductsFailure());
       console.log(error);
+      dispatch(getProductsFailure());
     }
   };
 
@@ -57,7 +58,7 @@ const Addproduct = ({ activeT, close }) => {
       <div className={activeT ? "showProduct" : "hideProduct"}>
         <div className="credit ">
           <div className="d-flex justify-content-between">
-            <h5>Mahsulot qo'shish</h5>
+            <h5>Mahsulot o'zgartirish</h5>
           </div>
           <div className="row d-flex justify-content-between">
             <div className="inputs  col">
@@ -81,6 +82,7 @@ const Addproduct = ({ activeT, close }) => {
                 type="text"
                 className="form-control"
                 placeholder="Mahsulot nomi"
+                value={name}
                 onChange={(e) => setname(e.target.value)}
               />
             </div>
@@ -106,6 +108,7 @@ const Addproduct = ({ activeT, close }) => {
                 type="number"
                 className="form-control"
                 placeholder="123456"
+                value={code}
                 onChange={(e) => setcode(e.target.value)}
               />
             </div>
@@ -114,7 +117,11 @@ const Addproduct = ({ activeT, close }) => {
             <div className="w-50">
               <label for="file-upload" className="w-100 rounded">
                 <h6>Rasmni yuklang</h6>
-                <img height={75} src={exfile ? exfile : AddIcon} alt="file" />
+                <img
+                  height={75}
+                  src={exfile ? exfile : `https://admin.xaridor.com/${file}`}
+                  alt="file"
+                />
                 <input
                   className="d-none"
                   id="file-upload"
@@ -129,6 +136,7 @@ const Addproduct = ({ activeT, close }) => {
                 type="text"
                 className="form-control"
                 placeholder="Ishlab chiqaruvchi nomi"
+                value={companyName}
                 onChange={(e) => setcompanyName(e.target.value)}
               />
             </div>
@@ -144,9 +152,9 @@ const Addproduct = ({ activeT, close }) => {
             </button>
             <button
               className="w-50 btn btn-primary btn-modal"
-              onClick={handleSubmit}
+              onClick={() => editBtn()}
             >
-              QO'SHISH
+              O'ZGARTIRISH
             </button>
           </div>
         </div>
@@ -155,4 +163,4 @@ const Addproduct = ({ activeT, close }) => {
   );
 };
 
-export default Addproduct;
+export default EditProduct;

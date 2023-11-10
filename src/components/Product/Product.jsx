@@ -10,10 +10,13 @@ import {
 } from "../redux/slice/product";
 import axios from "axios";
 import Loading from "../loading/loading";
+import EditProduct from "../editProduct/edit-product";
 
 const Product = () => {
   const { products, isLoading } = useSelector((state) => state.product);
   const [addShow, setAddShow] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [id, setId] = useState(0);
   const dispatch = useDispatch();
 
   const token = window.localStorage.getItem("token");
@@ -52,6 +55,11 @@ const Product = () => {
     setAddShow(!addShow ? true : false);
   };
 
+  const onEdit = (id) => {
+    setEditShow(!editShow);
+    setId(id);
+  };
+
   const CloseModal = (a) => {
     return a(false);
   };
@@ -74,6 +82,13 @@ const Product = () => {
               <Addproduct
                 activeT={addShow}
                 close={() => CloseModal(setAddShow)}
+              />
+            )}
+            {editShow && (
+              <EditProduct
+                activeT={editShow}
+                close={() => CloseModal(setEditShow)}
+                id={id}
               />
             )}
           </div>
@@ -107,7 +122,7 @@ const Product = () => {
                   <td>{e.productName}</td>
                   <td>
                     <img
-                      src={"https://admin.xaridor.com"+e.picturePath}
+                      src={"https://admin.xaridor.com" + e.picturePath}
                       style={{ width: "80px", height: "50px" }}
                       alt=""
                     />
@@ -116,6 +131,12 @@ const Product = () => {
                   <td>{e.dosageName}</td>
                   <td>{e.manufacturer}</td>
                   <td>
+                    <button
+                      className="btn btn-outline-success mx-2"
+                      onClick={() => onEdit(idx)}
+                    >
+                      Edit
+                    </button>
                     <button
                       className="btn btn-outline-danger"
                       onClick={() => handleDelete(e.id)}
